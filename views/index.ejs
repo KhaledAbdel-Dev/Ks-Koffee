@@ -1,0 +1,71 @@
+<%- include('partials/header') -%>
+
+<main class="container">
+    <div class="row justify-content-around mt-5">
+        <a href="/login" class="col-3 btn btn-primary"> Login</a>
+        <a href="/signup" class="col-3 btn btn-primary"> Signup</a>
+    </div>
+    <div class="mt-5">
+        <h2>Place Your Order</h2>
+        <form action="/post/createPost" method="POST">
+          <div class="mb-3">
+              <label for="orderName" class="form-label">What's Your Name?</label>
+              <input type="text" class="form-control" id="orderName" name="orderName">
+          </div>
+          <div class="mb-3">
+            <label for="size" class="form-label">Drink Size:</label><br>
+            <input type="radio" id="small" name="size" value="S">
+            <label for="size">Small</label>
+            <input type="radio" id="med" name="size" value="M">
+            <label for="size">Medium</label>
+            <input type="radio" id="large" name="size" value="L">
+            <label for="size">Large</label>
+            <input type="radio" id="xlarge" name="size" value="XL">
+            <label for="size">X-Large</label>
+          </div>  
+          <div class="mb-3">
+            <label for="drink" class="form-label">Select a Drink</label><br>
+            <select name="koldDrinks" id="cold">
+                <option value="">Kold Drinks</option>
+                <option value="Kopi Luwak Kold Brew">Special: Kopi Luwak Kold Brew</option>
+                <option value="Iced Chai Latte">Iced Chai Latte</option>
+                <option value="Iced Koffee">Iced Koffee</option>
+            </select>
+           <select name="hotDrinks" id="hot">
+                <option value="">Hot Drinks</option>
+                <option value="Chai Latte">Chai Latte</option>
+                <option value="Kafe Latte">Kafe Latte</option>
+                <option value="Kappuccino">Kappuccino</option>
+                <option value="Amerikano">Amerikano</option>
+                <option value="Espresso">Espresso</option>
+                <option value="Moka">Moka</option>
+            </select>
+            <select name="teas" id="tea">
+                <option value="">Teas</option>
+                <option value="English Breakfast">English Breakfast</option>
+                <option value="Earl Grey">Earl Grey</option>
+                <option value="Jasmine Hibiscus">Jasmine Hibiscus</option>
+                <option value="Plum Oolong">Plum Oolong</option>
+                <option value="Tazo Mint">Tazo Mint</option>
+            </select>
+          </div> 
+            <div class="mb-3">
+                <label for="milk" class="form-label">Milks:</label><br>
+                <input type="radio" id="small" name="milk" value="Whole Milk">
+                <label for="milk">Whole Milk</label>
+                <input type="radio" id="med" name="milk" value="2%">
+                <label for="milk">2%</label>
+                <input type="radio" id="large" name="milk" value="Oat">
+                <label for="milk">Oat</label>
+                <input type="radio" id="xlarge" name="milk" value="Almond">
+                <label for="milk">Almond</label>
+                <input type="radio" id="xlarge" name="milk" value="NO">
+                <label for="milk">Black</label>
+              </div>  
+          <button type="submit" class="btn btn-primary" value="submit">Submit Order</button>
+        </form>
+      </div>
+</main>
+    
+
+<%- include('partials/footer') -%>
