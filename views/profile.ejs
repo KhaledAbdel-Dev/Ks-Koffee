@@ -1,65 +1,164 @@
 <%- include('partials/header') -%>
-<div class="container">
-  <div class="row mt-5">
-      <div class="col-6">
-          <div>
-           
-              <a href="/logout" class="col-3 btn btn-primary">Logout</a>
-          </div>
-      <main class="mainSection">
-        <div>
-          <div class="textColor">
-           <h1> Orders to be Fulfilled</h1>
-           <p>Click the checkmark once an order is complete</p>
-          </div>
-          
-          <% if(activeOrder.length == 0) {%>
-           <p class="textColor">No orders pending. Feel free to take a break!</p>
-          <%} %>
-          <u1>
-          <% for (let i = 0; i < activeOrder.length; i++) {%>
-            <div class="activeOrders">
-              <li>
-                <span>Name: <%= activeOrder[i].orderName%></span> 
-                <p>Order: <%= activeOrder[i].size%> <%= activeOrder[i].koldDrinks%> <%= activeOrder[i].hotDrinks%> <%= activeOrder[i].teas%> w/ <%= activeOrder[i].milk%> Milk</p>
-                <form
-                  class="col-1"
-                  action="/post/takeOrder/<%= activeOrder[i].id %>?_method=PUT"
-                  method="POST">
-                  <button class="btn btn-primary bi bi-check-circle" type="submit"></button>
-                </form> 
-              </li> 
-            </div>
-          <%}%>
-          </ul>
-        </div>
 
-        <div >
-          <div class="textColor">
-            <h1>Waiting For Pickup</h1>
-            <p>Delete an order once it's been picked up</p>
-          </div> 
-          <ul>
-          <% for (let i = 0; i < completedOrder.length; i++) {%> 
-            <div class= "OrderComplete">
-              <li>
-                <span><%= completedOrder[i].barista%> completed: <%= completedOrder[i].orderName%>'s order </span>
-                <p>Order: <%= completedOrder[i].size%> <%= completedOrder[i].koldDrinks%> <%= completedOrder[i].hotDrinks%> <%= completedOrder[i].teas%> w/ <%= completedOrder[i].milk%> Milk</p> 
-              <form
-                action="/post/deleteOrder/<%= completedOrder[i].id %>?_method=DELETE" 
-                method="POST" 
-                class="col-31">
-                <button class="btn btn-primary b1 bi-trash" type="submit"></button>
-              </form>
+<header aria-label="Page Header">
+  <div class=" mx-auto max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <div class="text-center sm:text-left">
+        <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+          Welcome Back, <%= user.userName%>!
+        </h1>
 
-              </li>
-            </div>
-          <%}%>
-          </ul>
-        </div>
-       </main>
+        <p class="mt-1.5 text-sm text-gray-500">
+          Mhmm koffee... you know they love it! 🤤
+        </p>
+      </div>
 
+      <div class="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
+        <a href="/"><button
+          class="bg-white inline-flex items-center justify-center rounded-lg border border-green-200 px-5 py-3 text-green-500 transition hover:bg-green-50 hover:text-green-700 focus:outline-none focus:ring"
+          type="button"
+        >
+          <span class="text-sm font-medium"> Take an Order </span>
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="ml-1.5 h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+            />
+          </svg>
+        </button></a>
+
+        <a href="/logout"><button
+          class="block rounded-lg bg-green-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-green-700 focus:outline-none focus:ring"
+          type="button"
+        >
+          Logout
+        </button></a>
+      </div>
     </div>
   </div>
+</header>
+
+<div class="grid place-items-center mt-5">
+<div class="w-full max-w-2xl px-4 mb-5">
+  <div class="border rounded-lg border pb-6 border-gray-200 dark:border-gray-700 ">
+      <div class="flex items-center border-b border-gray-200 dark:border-gray-700  justify-between px-6 py-3">
+          <p tabindex="0" class="focus:outline-none text-sm lg:text-xl font-semibold leading-tight text-gray-800 dark:text-white ">Orders to Be Fulfilled</p>
+          
+          <button class="focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:bg-indigo-50 dark:focus:bg-indigo-500 flex cursor-pointer items-center justify-center px-3 py-2.5 border rounded border-gray-100 dark:border-gray-800 ">
+              <p  class="focus:outline-none text-xs md:text-sm leading-none text-gray-600 dark:text-gray-200 ">Filter by: Latest</p>
+          </button>
+      </div>
+      <div class="px-6 pt-6 overflow-x-auto">
+        <% if(activeOrder.length == 0) {%>
+          <p class="text-xs md:text-sm leading-none text-center text-gray-600 dark:text-gray-200  mt-2">No orders pending. You should take a break!</p>
+          <%} %>
+          <ul class="w-full whitespace-nowrap">
+            <% for (let i = 0; i < activeOrder.length; i++) {%>
+                  <li class="focus:outline-none mb-3">
+                          <div class="flex items-center">
+                              <div class="bg-gray-100 dark:bg-gray-800  rounded-sm p-2.5">
+                                 <img src="/imgs/active.png" alt="coffee" />
+                              </div>
+                              <div class="pl-3">
+                                  <div class="flex items-center text-sm leading-none">
+                                      <p class="font-semibold text-gray-800 dark:text-white "><%= activeOrder[i].size%> <%= activeOrder[i].koldDrinks%> <%= activeOrder[i].hotDrinks%> <%= activeOrder[i].teas%> w/ <%= activeOrder[i].milk%> Milk</p>
+                                  </div>
+                                  <p class="text-xs md:text-sm leading-none text-gray-600 dark:text-gray-200  mt-2"><%= activeOrder[i].orderName%></p>
+                              </div>
+                              <form
+                              class="col-1"
+                              action="/post/takeOrder/<%= activeOrder[i].id %>?_method=PUT"
+                              method="POST">
+                              <button type="submit" class="ml-10 float-right inline-block rounded-full border border-green-600 bg-green-600 p-1 text-white hover:bg-transparent hover:text-green-600 focus:outline-none focus:ring active:text-green-500">
+                                <svg
+                                  class="h-4 w-4"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                  />
+                                </svg>
+                                </button>
+                            </form> 
+                          </div>
+                         
+                    </li>
+                  <%}%>
+            </ul>
+      </div>
+  </div>
 </div>
+
+<div class="w-full max-w-2xl px-4">
+  <div class="border rounded-lg border pb-6 border-gray-200 dark:border-gray-700 ">
+      <div class="flex items-center border-b border-gray-200 dark:border-gray-700  justify-between px-6 py-3">
+          <p tabindex="0" class="focus:outline-none text-sm lg:text-xl font-semibold leading-tight text-gray-800 dark:text-white ">Orders Waiting for Pickup</p>
+          
+          <button class="focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:bg-indigo-50 dark:focus:bg-indigo-500 flex cursor-pointer items-center justify-center px-3 py-2.5 border rounded border-gray-100 dark:border-gray-800 ">
+              <p  class="focus:outline-none text-xs md:text-sm leading-none text-gray-600 dark:text-gray-200 ">Filter by: Latest</p>
+          </button>
+      </div>
+      <div class="px-6 pt-6 overflow-x-auto">
+        <% if(completedOrder.length == 0) {%>
+          <p class="text-xs md:text-sm leading-none text-center text-gray-600 dark:text-gray-200  mt-2">Make sure to delete orders once they've been picked up.</p>
+          <%} %>
+          <ul class="w-full whitespace-nowrap">
+            <% for (let i = 0; i < completedOrder.length; i++) {%>
+                  <li class="focus:outline-none mb-3">
+                          <div class="flex items-center">
+                              <div class="bg-gray-100 dark:bg-gray-800  rounded-sm p-2.5">
+                                 <img src="/imgs/active.png" alt="apple" />
+                              </div>
+                              <div class="pl-3">
+                                  <div class="flex items-center text-sm leading-none">
+                                      <p class="font-semibold text-gray-800 dark:text-white "><%= completedOrder[i].barista%> completed <%= completedOrder[i].orderName%>'s order</p>
+                                  </div>
+                                  <p class="text-xs md:text-sm leading-none text-gray-600 dark:text-gray-200  mt-2"><%= completedOrder[i].size%> <%= completedOrder[i].koldDrinks%> <%= completedOrder[i].hotDrinks%> <%= completedOrder[i].teas%> w/ <%= completedOrder[i].milk%> Milk</p>
+                              </div>
+                              <form
+                              action="/post/deleteOrder/<%= completedOrder[i].id %>?_method=DELETE" 
+                              method="POST" 
+                              class="col-31">
+                              <button type="submit" class="ml-10 float-right inline-block rounded-full border border-green-600 bg-green-600 p-1 text-white hover:bg-transparent hover:text-green-600 focus:outline-none focus:ring active:text-green-500">
+                                <svg
+                                  class="h-4 w-4"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                  />
+                                </svg>
+                                </button>
+                            </form> 
+                          </div>
+                         
+                    </li>
+                  <%}%>
+            </ul>
+      </div>
+  </div>
+</div>
+</div>
+
 <%- include('partials/footer') -%>

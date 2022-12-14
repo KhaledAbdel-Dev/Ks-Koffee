@@ -7,7 +7,7 @@ module.exports = {
       const activeOrders = await Post.find({ orderStatus: 'pending' });
       const completedOrders = await Post.find({ orderStatus: 'complete' });
 
-      res.render("profile.ejs", { activeOrder: activeOrders, completedOrder: completedOrders });
+      res.render("profile.ejs", { activeOrder: activeOrders, completedOrder: completedOrders, user: req.user });
     } catch (err) {
       console.log(err);
     }
